@@ -2,6 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      const meta = document.createElement('meta');
+      meta.name = "viewport";
+      meta.content = "width=device-width, initial-scale=1.0";
+      document.head.appendChild(meta);
+    }
+  </script>
+
   <title>KobayashiYume-portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
@@ -38,11 +47,215 @@
       color: white;
       font-weight: bold;
       pointer-events: none;
+        cursor: pointer;
       z-index: 10;
       opacity: 0;
       text-decoration: none !important;
       border-bottom: none !important;
     }
+
+.modal-hitbox {
+  position: fixed;
+  top: -50vh;
+  left: -50vh;
+  width: 150vw;
+  height: 150vh;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.modal-close {
+  transform: translateX(0);
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  width: 12vw;
+  height: 12vw;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-close::before,
+.modal-close::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10vw;
+  height: 0.3vw;
+  background-color: white;
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal-close:hover::before,
+.modal-close:hover::after {
+  background-color: rgba(255, 255, 255, 0.5); /* 赤くするとか */
+}
+
+.modal-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none; /* ← 背景だけどクリック貫通させるなら */
+}
+
+
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 20;
+  
+}
+.modal-description {
+  position: absolute;
+  font-size: 1.1rem;
+  letter-spacing: 0.02rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 30;
+      top: 70vh;
+    left: 70vw;
+}
+#modal1-description{
+ top: 78vh; 
+ left: 52vw;
+}
+#modal4-description{
+ top: 7vh; 
+ left: 51vw;
+}
+#modal5-description{
+    top: 70vh;
+    left: 70vw;
+}
+
+.modal-canvas {
+    position: absolute;
+  width: 1200px;
+  height: 800px;
+  z-index:5;
+
+}
+
+#modal5-canvas{
+top: 0;
+left:10vw;
+  transform: translate(0);
+  }
+  #modal4-canvas{
+top: 2vh;
+left:0;
+  transform: translate(0);
+  }
+  #modal1-canvas{
+top: 2vh;
+left:0;
+  transform: translate(-5vw);
+  }
+  #modal2-canvas{
+top: 2vh;
+left:0;
+  transform: translate(-5vw);
+  }
+    #modal3-canvas{
+top: 0;
+left:0;
+  transform: translateY(-5vw);
+  
+  }
+
+  .modal1-image {
+  position: absolute;
+  left: 51vw;
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  width: 500px;  top: 28vh;
+}
+
+  .modal2-image {
+  position: absolute;
+  left: 51vw;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  width: 450px;
+  top: 25vh;
+}
+.modal4-image {
+  position: absolute;
+  left: 51vw;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  width: 400px;  top: 26vh;
+}
+.modal4-image2 {
+  position: absolute;
+  left: 51vw;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+width: 300px;  top: 68vh;
+}
+
+.glitch-square {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: gentle-sway 4s ease-in-out infinite;
+  mix-blend-mode: lighten;
+}
+
+@keyframes gentle-sway {
+  0%   { transform: translateX(-3px); }
+  50%  { transform: translateX(3px); }
+  100% { transform: translateX(-3px); }
+}
+
+.glitch-square.alt {
+  animation: gentle-sway-alt 8s ease-in-out infinite;
+}
+
+@keyframes gentle-sway-alt {
+  0%   { transform: translateX(10px); }
+  60%  { transform: translateX(-10px); }
+  100% { transform: translateX(10px); }
+}
+
     .scroll-label#contact-svg {
       top: 50%;
       left: 50%;
@@ -50,7 +263,6 @@
       height: auto;
       margin-left: -20vw;
       margin-top: -20vw;
-      pointer-events: auto;
     }
     .scroll-label img {
       display: block;
@@ -71,8 +283,14 @@
       left: 45%;
       transform: translateX(0);
     }
-    .scroll-label:nth-of-type(2),
-      .scroll-label:nth-of-type(4){
+    .scroll-label:nth-of-type(2){
+        top: 35%;
+      font-size: 2vw;
+      transform: translateX(0);
+    }
+    .scroll-label:nth-of-type(4){
+        top: 35%;
+        left:30%;
       font-size: 2vw;
       transform: translateX(0);
     }
@@ -142,20 +360,41 @@
   pointer-events: inherit;
 }
 
+.pdfdownload{
+  font-size: 5vw;
+  line-height: 1;
+}
+
+
     @media (max-width: 768px) {
       .scroll-label:first-of-type,
-      .scroll-label:nth-of-type(3),
     .scroll-label:nth-of-type(7) {
       font-size: 25vw;
       left: 2%;
 
     }
+
+        .scroll-label:nth-of-type(2){
+              top: 24%;
+font-size: 4vw;
+    }
+    .scroll-label:nth-of-type(3){
+      left: 20%;
+      top: 15%;
+      font-size: 23vw;
+    }
+    .scroll-label:nth-of-type(4){
+        top: 35%;
+        left:30%;
+      font-size: 3vw;
+    }
+
     .scroll-label:nth-of-type(6) ,
     .scroll-label:nth-of-type(8) ,
     .scroll-label:nth-of-type(10) 
     {
       top: 25%;
-
+     font-size: 3vw;
     }
 
     .scroll-label:nth-of-type(5) ,
@@ -167,45 +406,231 @@
     .intro-label{
       top: 40%;
 }
+      .modal-hitbox {
+    display: none !important;
+  }
+
+
+#modal5-canvas{
+  transform: translateX(-20vw, -7vh) !important;
+  }
+#modal4-canvas{
+  transform: translateX(-27vw, -2vh) !important;
+  }
+    #modal1-canvas{
+  transform: translateX(-31vw, -15vh) !important;
+  }
+
+    #modal2-canvas{
+  transform: translateX(-31vw, -15vh) !important;
+  }
+    #modal3-canvas{
+transform: translate(-30vw, -5vh); 
+  }
+
+#modal1-description{
+ top: 21vh; 
+ left: 65vw;
+}
+#modal4-description{
+ top: 23vh; 
+ left: 51vw;
+}
+#modal5-description{
+    top: 70vh;
+    left: 3vw;
+}
+.modal2-image {
+width: 40vw;  top: 70vh;left:8vw;
+}
+.modal4-image {
+  width: 45vw;  top: 40vh;
+}
+.modal4-image2 {
+width: 40vw;  top: 70vh;
+}
+  .modal1-image {
+    width: 80vw;  top: 67vh;
+    left:8vw;
+  }
+
+
   }
   @media (max-width: 468px) {
-    .scroll-label:first-of-type,
-      .scroll-label:nth-of-type(3),
-    .scroll-label:nth-of-type(7) {
-      font-size: 32vw;
 
+    .scroll-label:nth-of-type(2){
+      top: 35%;
+     font-size: 5vw;
+    }
+    .scroll-label:nth-of-type(3){
+      left: 20%;
+      top: 15%;
+      font-size: 23vw;
+    }
+    .scroll-label:nth-of-type(4) {
+      top: 65%;
+font-size: 5vw;
 
     }
-    .scroll-label:nth-of-type(5) ,
-    .scroll-label:nth-of-type(9) 
-    {
-      font-size: 32vw;
-
-    }
-    .scroll-label:nth-of-type(6) ,
+        .scroll-label:nth-of-type(6) ,
+    .scroll-label:nth-of-type(8) ,
     .scroll-label:nth-of-type(10) 
     {
-      top: 30%;
-
+     font-size: 5vw;
     }
+    .modal-close {
+  width: 25vw;
+  height: 25vw;
+
+}
+.modal-close::before,
+.modal-close::after {
+  width: 20vw;       /* 線の長さ（全体より少し小さく） */
+  height: 0.4vw;     /* 線の太さ */
+}
+  #modal5-canvas{
+  transform: translate(-44vw, 0) !important;
   }
+  #modal4-canvas{
+  transform: translate(-48vw, -2vh) !important;
+  }
+  #modal1-canvas{
+  transform: translate(-51vw, -9vh) !important;
+  }
+  #modal2-canvas{
+  transform: translate(-45vw, -9vh) !important;
+  }
+      #modal3-canvas{
+transform: translate(-59vw, -5vh); 
+  }
+
+  #modal2-description{
+  left: 3vw;
+    left: 50vw;
+  }
+
+  .modal4-image {
+  top: 59vh;
+  }
+  .modal4-image2 {
+  top: 80vh;
+  }
+
+  .pdfdownload{
+    font-size: 8vw;
+  }
+}
+  
   </style>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+      <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 </head>
 <body>
   <div id="loading-screen"></div>
-  <a class="scroll-label"  data-show="0.034 0.284 0.534 0.784" data-hide="0.05 0.3 0.55 0.8" style="top: 5%;">About me</a>
-  <a class="scroll-label"  data-show="0.036 0.286 0.536 0.786" data-hide="0.055 0.305 0.555 0.805" style="top: 35%;left: 7%">This is my profile.</a>
-  <a class="scroll-label"  data-show="0.066 0.316 0.566 0.816" data-hide="0.086 0.336 0.586 0.836" style="top: 65%;">Hardware</a>
-  <a class="scroll-label"  data-show="0.068 0.318 0.568 0.818" data-hide="0.088 0.338 0.588 0.838" style="top: 60%;left: 65%;">These are the hardware devices<br> I have created thus far.</a>
-  <a class="scroll-label"  data-show="0.11 0.36 0.61 0.86" data-hide="0.13 0.38 0.63 0.88" style="top: 3%;">2Dworks</a>
-  <a class="scroll-label"  data-show="0.112 0.362 0.612 0.862" data-hide="0.132 0.382 0.632 0.882" style="left: 48%;">Here is a selection of illustrations and cover designs I have worked on.</a>
-  <a class="scroll-label"  data-show="0.14 0.39 0.64 0.89" data-hide="0.16 0.41 0.66 0.91" style="top: 3%;">Rigmodels</a>
-  <a class="scroll-label"  data-show="0.142 0.392 0.642 0.892" data-hide="0.162 0.412 0.662 0.912" style="left: 5%;">Here is a selection of my work, including 2D rigged models and animated videos.</a>
-  <a class="scroll-label"  data-show="0.174 0.424 0.674 0.924" data-hide="0.197 0.447 0.697 0.947" style="top: 2%;">3Dworks</a>
-  <a class="scroll-label"  data-show="0.176 0.426 0.676 0.926" data-hide="0.199 0.449 0.699 0.949" >Here is a collection of 3D models <br>I have designed and created.</a>
+  <a class="scroll-label"  data-show="0.034 0.284 0.534 0.784" data-hide="0.05 0.3 0.55 0.8" style="top: 5%;" data-modal="modal1"></div>About me<div class="modal-hitbox" data-modal="modal1"></div></a>
+  <a class="scroll-label"  data-show="0.036 0.286 0.536 0.786" data-hide="0.055 0.305 0.555 0.805" style="left: 7%" data-modal="modal1">This is my profile.</a>
+  <a class="scroll-label"  data-show="0.066 0.316 0.566 0.816" data-hide="0.086 0.336 0.586 0.836" style="top: 65%;"data-modal="modal2">Hardware<div class="modal-hitbox" data-modal="modal2"></div></a>
+  <a class="scroll-label"  data-show="0.068 0.318 0.568 0.818" data-hide="0.088 0.338 0.588 0.838" style="left: 65%;"data-modal="modal2">These are the hardware devices<br> I have created thus far.</a>
+  <a class="scroll-label"  data-show="0.11 0.36 0.61 0.86" data-hide="0.13 0.38 0.63 0.88" style="top: 3%;"data-modal="modal3">2Dworks<div class="modal-hitbox" data-modal="modal3"></div></a>
+  <a class="scroll-label"  data-show="0.112 0.362 0.612 0.862" data-hide="0.132 0.382 0.632 0.882" style="left: 48%;"data-modal="modal3">Here is a selection of illustrations and cover designs I have worked on.</a>
+  <a class="scroll-label"  data-show="0.14 0.39 0.64 0.89" data-hide="0.16 0.41 0.66 0.91" style="top: 3%;"data-modal="modal4">Rigmodels<div class="modal-hitbox" data-modal="modal4"></div></a>
+  <a class="scroll-label"  data-show="0.142 0.392 0.642 0.892" data-hide="0.162 0.412 0.662 0.912" style="left: 5%;"data-modal="modal4">Here is a selection of my work, including 2D rigged models and animated videos.</a>
+  <a class="scroll-label"  data-show="0.174 0.424 0.674 0.924" data-hide="0.197 0.447 0.697 0.947" style="top: 2%;"data-modal="modal5">3Dworks<div class="modal-hitbox" data-modal="modal5"></div></a>
+  <a class="scroll-label"  data-show="0.176 0.426 0.676 0.926" data-hide="0.199 0.449 0.699 0.949"data-modal="modal5">Here is a collection of 3D models <br>I have designed and created.</a>
   <a class="scroll-label download-link"  data-show="0.234 0.484 0.734 0.984" data-hide="0.25 0.5 0.75 0.99999" id="contact-svg" href="mailto:kobayashi.yume.0305@gmail.com"> <img src="model/contact.svg" alt="contact"></a>
-  <a class="scroll-label"  data-show="0" data-hide="0.015" id="intro-label" style="left:5%; top: 20%;font-size: 20vw;">KOBAYASHI YUME</a>
-  <a class="scroll-label download-link"  data-show="0.204 0.454 0.704 0.954" data-hide="0.225 0.475 0.725 0.975" id="contact-svg" style="left:36vw;top:43vh; margin-left: 0;margin-top: 0;font-size: 4vw;"href="model/KobayashiYume-portfolio.pdf" target="_blank" rel="noopener noreferrer">PORTfolio_PDF_DOWNLOAD</a>
+  <a class="scroll-label"  data-show="0" data-hide="0.015" id="intro-label" style="left:5%; top: 20%;font-size: 20vw;cursor: default;">KOBAYASHI YUME</a>
+  <a class="scroll-label download-link pdfdownload"  data-show="0.204 0.454 0.704 0.954" data-hide="0.225 0.475 0.725 0.975" id="contact-svg" style="top: 60%;" href="model/KobayashiYume-portfolio.pdf" target="_blank" rel="noopener noreferrer">PORTfolio_PDF_DOWNLOAD</a>
+
+<div id="glitch-template" style="display: none;">
+  <div class="modal-bg">
+    <div class="glitch-square" style="top: 14%; left: 15%; width: 20vw; height: 2vh;"></div>
+    <div class="glitch-square" style="top: 20%; left: 25%; width: 40vw; height: 8vh;"></div>
+    <div class="glitch-square" style="top: 20%; left: 75%; width: 20vw; height: 6vh;"></div>
+    <div class="glitch-square alt" style="top: 30%; left: 10%; width: 60vw; height: 12vh;"></div>
+    <div class="glitch-square" style="top: 42%; left: 35%; width: 55vw; height: 10vh;"></div>
+    <div class="glitch-square alt" style="top: 50%; left: 30%; width: 66vw; height: 6vh;"></div>
+    <div class="glitch-square" style="top: 57%; left: 44%; width: 34vw; height: 4vh;"></div>
+    <div class="glitch-square alt" style="top: 63%; left: 23%; width: 52vw; height: 10vh;"></div>
+    <div class="glitch-square" style="top: 70%; left: 33%; width: 38vw; height: 6vh;"></div>
+    <div class="glitch-square" style="top: 84%; left: 50%; width: 40vw; height: 2vh;"></div>
+  </div>
+</div>
+
+
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <div class="modal-close close-modal"></div>
+    <canvas id="modal1-canvas"class="modal-canvas"></canvas>
+    <img class="modal1-image" src="img/SKILLSET.png" alt="illustrator"/>
+    </div>
+    <div class="modal-description" id="modal1-description">
+      Grab & play.<br><br>
+This is me in 2023.
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+</div>
+
+
+<div id="modal2" class="modal">
+  <div class="modal-content">
+    <div class="modal-close close-modal"></div>
+    <canvas id="modal2-canvas"class="modal-canvas"></canvas>
+    <img class="modal2-image" src="img/drums.png" alt="drums"/>
+    </div>
+    <div class="modal-description" id="modal2-description">
+      Grab & play.<br><br>
+DecimatedWireframe<br>
+Software: Blender
+    </div>
+  </div>
+</div>
+
+<div id="modal3" class="modal">
+  <div class="modal-content">
+    <div class="modal-close close-modal"></div>
+    <canvas id="modal3-canvas"class="modal-canvas"></canvas>
+    </div>
+    <div class="modal-description" id="modal3-description">
+      Grab & play.<br><br>
+Software: illustrator Blender
+    </div>
+  </div>
+</div>
+
+<div id="modal4" class="modal">
+  <div class="modal-content">
+    <div class="modal-close close-modal"></div>
+    <canvas id="modal4-canvas"class="modal-canvas"></canvas>
+    <img class="modal4-image" src="img/moho.png" alt="Model Preview"/>
+    <img class="modal4-image2" src="img/moho2.png" alt="Model Preview"/>
+    </div>
+    <div class="modal-description" id="modal4-description">
+      Grab & play.<br><br>
+DecimatedWireframe<br>
+Software: Moho Blender
+    </div>
+  </div>
+</div>
+
+
+<div id="modal5" class="modal">
+  <div class="modal-content">
+    <div class="modal-close close-modal"></div>
+    <canvas id="modal5-canvas" class="modal-canvas"></canvas>
+    <div id="modal5-description" class="modal-description">
+    Grab & play.<br><br>
+    Production period: 6 months<br>
+    File size: 7.5 MB<br>
+    Software: Blender
+    </div>
+  </div>
+</div>
+
 
   <script type="importmap">
     {
@@ -219,6 +644,9 @@
   setTimeout(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, 50);
+   if (window.innerWidth <= 768) {
+    document.querySelectorAll('.modal-hitbox').forEach(el => el.remove());
+  }
 });
     import * as THREE from 'three';
     import { GLTFLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
@@ -245,14 +673,13 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = isMobile ? 0.5 : 0.8;
 
 renderer.shadowMap.enabled = true;
 
 if (isMobile) {
   renderer.shadowMap.type = THREE.BasicShadowMap;
-  renderer.setPixelRatio(0.3);
-  renderer.toneMappingExposure = 0.5; 
+  renderer.setPixelRatio(0.8);
+  renderer.toneMappingExposure = 0.7; 
 } else {
   renderer.shadowMap.type = THREE.BasicShadowMap;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
@@ -443,6 +870,264 @@ window.updateLabels = updateLabels;
 });
 
 
+function addGlitchSquaresTo(modalEl) {
+  const template = document.getElementById('glitch-template');
+  if (!template) return;
+
+  const clone = template.firstElementChild.cloneNode(true);
+  modalEl.querySelector('.modal-content')?.appendChild(clone);
+}
+
+const wireframeGroup = new THREE.Group();
+scene.add(wireframeGroup);
+wireframeGroup.visible = false;
+
+
+
+const modalViewers = {}; // modalIdごとにthree.js関連を保存
+const modalSettings = {
+  modal1: { model: 'model/Aposeyume.glb', wireframe: true },
+  modal2: { model: 'model/gloves.glb', wireframe: true },
+  modal3: { model: 'model/2D.glb', wireframe: false },
+  modal4: { model: 'model/yamu3Dkubi.glb', wireframe: true },
+  modal5: { model: 'model/heyaportfoliokeiryou.glb', wireframe: true },
+};
+
+
+function getCanvasSize(canvasId, width) {
+  if (canvasId === 'modal4-canvas') {
+    return width < 800 ? 750 : 700;
+  } else if (canvasId === 'modal5-canvas') {
+    return width < 468 ? 650 : 700;
+  }   else if (canvasId === 'modal2-canvas')  {
+    return width < 468 ? 750 : 700;
+  } else if (canvasId === 'modal3-canvas')  {
+    return width < 468 ? 850 : 750;
+  } 
+  else {
+    return width < 468 ? 750 : 700; // デフォルト
+  }
+}
+
+
+function initModalViewer(modalId) {
+  if (modalViewers[modalId]?.initialized) return;
+  const width = window.innerWidth;
+  const canvas = document.getElementById(`${modalId}-canvas`);
+const size = getCanvasSize(canvas.id, width);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(size, size);  
+  renderer.setPixelRatio(window.devicePixelRatio);
+  canvas.style.width = `${size}px`;
+  canvas.style.height = `${size}px`;
+
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 180);
+  camera.position.set(0, 0, 100);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.enableZoom = false;
+  controls.enablePan = false;
+  controls.enableRotate = true;
+
+  const loader = new GLTFLoader();
+  loader.load(modalSettings[modalId].model,
+  (gltf)=> {
+    const model = gltf.scene;
+
+    // 中心合わせ
+    const box = new THREE.Box3().setFromObject(model);
+    const center = box.getCenter(new THREE.Vector3());
+    model.position.sub(center);
+
+    const group = new THREE.Group();
+    group.add(model);
+
+  // ワイヤーフレームフラグ
+  const useWireframe = modalSettings[modalId]?.wireframe;
+
+  model.traverse(child => {
+    if (child.isMesh) {
+      if (useWireframe) {
+        child.material = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          wireframe: true,
+        });
+      } else {
+        child.material = child.material.clone();
+      }
+    }
+  });
+  if (!useWireframe) {
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    const dir = new THREE.DirectionalLight(0xffffff, 1.0);
+    dir.position.set(1, 1, 2);
+    scene.add(ambient, dir);
+  }
+
+  scene.add(group);
+
+
+
+    model.scale.set(
+      width < 700 ? 0.9 : 1.3,
+      width < 700 ? 0.9 : 1.3,
+      width < 700 ? 0.9 : 1.3
+    );
+
+    controls.target.copy(group.position);
+    controls.update();
+    if (useWireframe) {
+        const wireframeGroup = new THREE.Group();
+        wireframeGroup.add(group);
+        scene.add(wireframeGroup);
+      } else {
+        scene.add(group);
+      }
+    // 保存
+    modalViewers[modalId] = {
+      renderer,
+      scene,
+      camera,
+      controls,
+      mesh: group,
+      animationId: null,
+      initialized: true,
+      canvas,
+    };
+
+    animateModal(modalId);
+  });
+}
+
+function animateModal(modalId) {
+  const viewer = modalViewers[modalId];
+  if (!viewer) return;
+
+  viewer.animationId = requestAnimationFrame(() => animateModal(modalId));
+  viewer.mesh.rotation.y += 0.003;
+  viewer.controls.update();
+  viewer.renderer.render(viewer.scene, viewer.camera);
+}
+
+function openModal(modalEl) {
+  const modalId = modalEl.id;
+  modalEl.classList.add('visible');
+  addGlitchSquaresTo(modalEl);
+
+  setTimeout(() => {
+    modalEl.style.pointerEvents = 'auto';
+    const canvas = modalEl.querySelector('canvas');
+    if (canvas) canvas.style.pointerEvents = 'auto';
+  }, 100);
+
+  initModalViewer(modalId);
+}
+
+function closeModal(modalEl) {
+  const modalId = modalEl.id;
+  const viewer = modalViewers[modalId];
+  modalEl.classList.remove('visible');
+  modalEl.style.pointerEvents = 'none';
+
+  const canvas = modalEl.querySelector('canvas');
+  if (canvas) canvas.style.pointerEvents = 'none';
+
+  if (viewer) {
+    cancelAnimationFrame(viewer.animationId);
+    viewer.animationId = null;
+    viewer.initialized = false;
+
+    // Three.js側の破棄は必要に応じて追加（renderer.dispose()など）
+
+    const ctx = viewer.canvas.getContext('2d');
+    ctx.clearRect(0, 0, viewer.canvas.width, viewer.canvas.height);
+
+    // viewerごと削除してもOKなら↓
+    // delete modalViewers[modalId];
+  }
+}
+
+// モーダルトリガー
+function bindModalTriggers() {
+  document.querySelectorAll('[data-modal]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const modalId = el.dataset.modal;
+      const modalEl = document.getElementById(modalId);
+      if (modalEl) {
+        openModal(modalEl);
+      } else {
+        console.warn('モーダルが見つかりません:', modalId);
+      }
+    });
+  });
+}
+
+// 閉じるボタン
+function bindModalClosers() {
+  document.querySelectorAll('.close-modal').forEach(button => {
+    button.addEventListener('click', () => {
+      const modalEl = button.closest('.modal');
+      if (modalEl) {
+        closeModal(modalEl);
+      }
+    });
+  });
+}
+
+// 起動時バインド
+document.addEventListener('DOMContentLoaded', () => {
+  bindModalTriggers();
+  bindModalClosers();
+});
+
+
+// 多分animationつけてるのとscrolltriggerがfixなのが原因でcssが効かない。ここでメディアクエリ分を調整する
+const pdfBtn = document.querySelector('.pdfdownload');
+
+function updatePdfTop() {
+if (window.innerWidth < 468) {
+  pdfBtn.style.top = '50%';
+  pdfBtn.style.left = '37.5%';
+} else if (window.innerWidth < 800) {
+  pdfBtn.style.top = '60%';
+  pdfBtn.style.left = '50%';
+} else {
+  pdfBtn.style.top = '75%';
+  pdfBtn.style.left = '50%';
+}
+
+}
+window.addEventListener('resize', updatePdfTop);
+updatePdfTop(); // 初期実行
+
+function adjustLabelPositions() {
+  const isMobile = window.innerWidth < 468;
+
+  const label1 = document.querySelector('.scroll-label:first-of-type');
+  const label3 = document.querySelector('.scroll-label:nth-of-type(3)');
+  const label5 = document.querySelector('.scroll-label:nth-of-type(5)');
+  const label7 = document.querySelector('.scroll-label:nth-of-type(7)');
+  const label9 = document.querySelector('.scroll-label:nth-of-type(9)');
+
+  if (label1) label1.style.top = isMobile ? '20%' : '';
+  if (label3) label3.style.top = isMobile ? '50%' : '';
+  [label5, label7, label9].forEach(label => {
+    if (label) label.style.top = isMobile ? '10%' : '';
+  });
+}
+
+
+window.addEventListener('resize', adjustLabelPositions);
+adjustLabelPositions(); // 初回実行
+
+
   </script>
 </body>
 </html>
+
