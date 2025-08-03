@@ -171,31 +171,30 @@
 
 }
 
-#modal5-canvas{
-top: 0;
-left:10vw;
+  #modal5-canvas{
+  top: 0;
+  left:10vw;
   transform: translate(0);
   }
   #modal4-canvas{
-top: 2vh;
-left:0;
+  top: 2vh;
+  left:0;
   transform: translate(0);
   }
   #modal1-canvas{
-top: 2vh;
-left:0;
+  top: 2vh;
+  left:0;
   transform: translate(-5vw);
   }
   #modal2-canvas{
-top: 2vh;
-left:0;
+  top: 2vh;
+  left:0;
   transform: translate(-5vw);
   }
     #modal3-canvas{
-top: 0;
-left:0;
+  top: 0;
+  left:0;
   transform: translateY(-5vw);
-  
   }
 
   .modal1-image {
@@ -205,7 +204,7 @@ left:0;
   z-index: 10;
   pointer-events: none;
   width: 500px;  top: 28vh;
-}
+  }
 
   .modal2-image {
   position: absolute;
@@ -492,7 +491,7 @@ font-size: 5vw;
   transform: translate(-44vw, 0) !important;
   }
   #modal4-canvas{
-  transform: translate(-48vw, -2vh) !important;
+  transform: translate(-58vw, -10vh) !important;
   }
   #modal1-canvas{
   transform: translate(-51vw, -9vh) !important;
@@ -508,9 +507,13 @@ transform: translate(-59vw, -5vh);
   left: 3vw;
     left: 50vw;
   }
+  #modal4-description{
+ top: 6vh; 
+ left: 2vw;
+}
 
   .modal4-image {
-  top: 59vh;
+  top: 62vh;
   }
   .modal4-image2 {
   top: 80vh;
@@ -896,7 +899,7 @@ const modalSettings = {
 
 function getCanvasSize(canvasId, width) {
   if (canvasId === 'modal4-canvas') {
-    return width < 800 ? 750 : 700;
+    return width < 800 ? 850 : 700;
   } else if (canvasId === 'modal5-canvas') {
     return width < 468 ? 650 : 700;
   }   else if (canvasId === 'modal2-canvas')  {
