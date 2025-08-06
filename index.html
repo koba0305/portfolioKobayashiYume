@@ -52,6 +52,7 @@
       opacity: 0;
       text-decoration: none !important;
       border-bottom: none !important;
+      user-select: none;
     }
 
 .modal-hitbox {
@@ -168,7 +169,7 @@
   width: 1200px;
   height: 800px;
   z-index:5;
-
+    cursor: grab;
 }
 
   #modal5-canvas{
@@ -231,6 +232,21 @@
   pointer-events: none;
 width: 300px;  top: 68vh;
 }
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5rem;
+  z-index: 100;
+}
+
+.hidden {
+  display: none;
+}
+
+
 
 .glitch-square {
   position: absolute;
@@ -563,6 +579,7 @@ transform: translate(-59vw, -5vh);
 <div id="modal1" class="modal">
   <div class="modal-content">
     <div class="modal-close close-modal"></div>
+    <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal1-canvas"class="modal-canvas"></canvas>
     <img class="modal1-image" src="img/SKILLSET.png" alt="illustrator"/>
     </div>
@@ -582,6 +599,7 @@ This is me in 2023.
 <div id="modal2" class="modal">
   <div class="modal-content">
     <div class="modal-close close-modal"></div>
+    <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal2-canvas"class="modal-canvas"></canvas>
     <img class="modal2-image" src="img/drums.png" alt="drums"/>
     </div>
@@ -596,6 +614,7 @@ Software: Blender
 <div id="modal3" class="modal">
   <div class="modal-content">
     <div class="modal-close close-modal"></div>
+    <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal3-canvas"class="modal-canvas"></canvas>
     </div>
     <div class="modal-description" id="modal3-description">
@@ -608,6 +627,7 @@ Software: illustrator Blender
 <div id="modal4" class="modal">
   <div class="modal-content">
     <div class="modal-close close-modal"></div>
+    <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal4-canvas"class="modal-canvas"></canvas>
     <img class="modal4-image" src="img/moho.png" alt="Model Preview"/>
     <img class="modal4-image2" src="img/moho2.png" alt="Model Preview"/>
@@ -624,6 +644,7 @@ Software: Moho Blender
 <div id="modal5" class="modal">
   <div class="modal-content">
     <div class="modal-close close-modal"></div>
+    <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal5-canvas" class="modal-canvas"></canvas>
     <div id="modal5-description" class="modal-description">
     Grab & play.<br><br>
@@ -915,6 +936,9 @@ function getCanvasSize(canvasId, width) {
 
 function initModalViewer(modalId) {
   if (modalViewers[modalId]?.initialized) return;
+    const modalEl = document.getElementById(modalId);
+  const loadingEl = modalEl.querySelector('.loading-indicator');
+  if (loadingEl) loadingEl.classList.remove('hidden');
   const width = window.innerWidth;
   const canvas = document.getElementById(`${modalId}-canvas`);
 const size = getCanvasSize(canvas.id, width);
@@ -1004,6 +1028,7 @@ const size = getCanvasSize(canvas.id, width);
     };
 
     animateModal(modalId);
+    if (loadingEl) loadingEl.classList.add('hidden');
   });
 }
 
@@ -1028,7 +1053,9 @@ function openModal(modalEl) {
     if (canvas) canvas.style.pointerEvents = 'auto';
   }, 100);
 
-  initModalViewer(modalId);
+  if (!modalViewers[modalId]?.initialized) {
+    initModalViewer(modalId);
+  }
 }
 
 function closeModal(modalEl) {
@@ -1045,13 +1072,11 @@ function closeModal(modalEl) {
     viewer.animationId = null;
     viewer.initialized = false;
 
-    // Three.js側の破棄は必要に応じて追加（renderer.dispose()など）
+
 
     const ctx = viewer.canvas.getContext('2d');
     ctx.clearRect(0, 0, viewer.canvas.width, viewer.canvas.height);
 
-    // viewerごと削除してもOKなら↓
-    // delete modalViewers[modalId];
   }
 }
 
