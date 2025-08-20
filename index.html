@@ -426,22 +426,12 @@ font-size: 4vw;
   }
 
 
-#modal5-canvas{
-  transform: translateX(-20vw, -7vh) !important;
-  }
-#modal4-canvas{
-  transform: translateX(-27vw, -2vh) !important;
-  }
-    #modal1-canvas{
-  transform: translateX(-31vw, -15vh) !important;
-  }
+#modal5-canvas { transform: translate(-20vw, -7vh) !important; }
+#modal4-canvas { transform: translate(-27vw, -2vh) !important; }
+#modal1-canvas { transform: translate(-31vw, -15vh) !important; }
+#modal2-canvas { transform: translate(-31vw, -15vh) !important; }
+#modal3-canvas { transform: translate(-30vw, -5vh) !important; }
 
-    #modal2-canvas{
-  transform: translateX(-31vw, -15vh) !important;
-  }
-    #modal3-canvas{
-transform: translate(-30vw, -5vh); 
-  }
 
 #modal1-description{
  top: 21vh; 
@@ -689,18 +679,20 @@ const labels = document.querySelectorAll('.scroll-label');
     perspectiveCamera.position.set(0, 1.6, 5);
     perspectiveCamera.lookAt(0, 1, 0);
 
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+function isSmall()  { return window.innerWidth < 468; }
+function isNarrow() { return window.innerWidth < 800; }
+
 
 const renderer = new THREE.WebGLRenderer({
-  antialias: !isMobile
+  antialias: !isSmall()
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-
 renderer.shadowMap.enabled = true;
 
-if (isMobile) {
+if (isSmall()) {
   renderer.shadowMap.type = THREE.BasicShadowMap;
   renderer.setPixelRatio(0.8);
   renderer.toneMappingExposure = 0.7; 
@@ -710,13 +702,13 @@ if (isMobile) {
   renderer.toneMappingExposure = 0.8;
 }
 
-
-
 document.body.appendChild(renderer.domElement);
-    const controls = new OrbitControls(perspectiveCamera, renderer.domElement);
-    controls.enableZoom = false;
-    controls.enablePan = false;
-    controls.enableRotate = false;
+
+const controls = new OrbitControls(perspectiveCamera, renderer.domElement);
+controls.enableZoom = false;
+controls.enablePan = false;
+controls.enableRotate = false;
+
 
     const loader = new GLTFLoader();
     let cameraDriver;
@@ -929,7 +921,7 @@ function getCanvasSize(canvasId, width) {
     return width < 468 ? 850 : 750;
   } 
   else {
-    return width < 468 ? 750 : 700; // デフォルト
+    return width < 468 ? 750 : 700;
   }
 }
 
@@ -1117,25 +1109,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 多分animationつけてるのとscrolltriggerがfixなのが原因でcssが効かない。ここでメディアクエリ分を調整する
 const pdfBtn = document.querySelector('.pdfdownload');
-
 function updatePdfTop() {
-if (window.innerWidth < 468) {
-  pdfBtn.style.top = '50%';
-  pdfBtn.style.left = '37.5%';
-} else if (window.innerWidth < 800) {
-  pdfBtn.style.top = '60%';
-  pdfBtn.style.left = '50%';
-} else {
-  pdfBtn.style.top = '75%';
-  pdfBtn.style.left = '50%';
-}
-
+  if (isSmall()) {
+    pdfBtn.style.top = '50%';
+    pdfBtn.style.left = '37.5%';
+  } else if (isNarrow()) {
+    pdfBtn.style.top = '60%';
+    pdfBtn.style.left = '50%';
+  } else {
+    pdfBtn.style.top = '75%';
+    pdfBtn.style.left = '50%';
+  }
 }
 window.addEventListener('resize', updatePdfTop);
-updatePdfTop(); // 初期実行
+updatePdfTop();
+
 
 function adjustLabelPositions() {
-  const isMobile = window.innerWidth < 468;
+  const small = isSmall();
 
   const label1 = document.querySelector('.scroll-label:first-of-type');
   const label3 = document.querySelector('.scroll-label:nth-of-type(3)');
@@ -1143,17 +1134,14 @@ function adjustLabelPositions() {
   const label7 = document.querySelector('.scroll-label:nth-of-type(7)');
   const label9 = document.querySelector('.scroll-label:nth-of-type(9)');
 
-  if (label1) label1.style.top = isMobile ? '20%' : '';
-  if (label3) label3.style.top = isMobile ? '50%' : '';
+  if (label1) label1.style.top = small ? '20%' : '';
+  if (label3) label3.style.top = small ? '50%' : '';
   [label5, label7, label9].forEach(label => {
-    if (label) label.style.top = isMobile ? '10%' : '';
+    if (label) label.style.top = small ? '10%' : '';
   });
 }
-
-
 window.addEventListener('resize', adjustLabelPositions);
 adjustLabelPositions(); // 初回実行
-
 
   </script>
 </body>
