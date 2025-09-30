@@ -490,8 +490,8 @@ font-size: 5vw;
 }
 .modal-close::before,
 .modal-close::after {
-  width: 20vw;       /* 線の長さ（全体より少し小さく） */
-  height: 0.4vw;     /* 線の太さ */
+  width: 20vw;  /* 線 */
+  height: 0.4vw;
 }
   #modal5-canvas{
   transform: translate(-44vw, 0) !important;
@@ -575,7 +575,7 @@ transform: translate(-59vw, -5vh);
     </div>
     <div class="modal-description" id="modal1-description">
       Grab & play.<br><br>
-This is me in 2023.
+      This is me in 2023.
     </div>
   </div>
 </div>
@@ -595,8 +595,8 @@ This is me in 2023.
     </div>
     <div class="modal-description" id="modal2-description">
       Grab & play.<br><br>
-DecimatedWireframe<br>
-Software: Blender
+      DecimatedWireframe<br>
+      Software: Blender
     </div>
   </div>
 </div>
@@ -609,7 +609,7 @@ Software: Blender
     </div>
     <div class="modal-description" id="modal3-description">
       Grab & play.<br><br>
-Software: illustrator Blender
+      Software: illustrator Blender
     </div>
   </div>
 </div>
@@ -624,8 +624,8 @@ Software: illustrator Blender
     </div>
     <div class="modal-description" id="modal4-description">
       Grab & play.<br><br>
-DecimatedWireframe<br>
-Software: Moho Blender
+      Software: Moho Blender<br>
+      https://www.youtube.com/shorts/ttmEgzOd_M4
     </div>
   </div>
 </div>
@@ -966,7 +966,6 @@ const size = getCanvasSize(canvas.id, width);
     const group = new THREE.Group();
     group.add(model);
 
-  // ワイヤーフレームフラグ
   const useWireframe = modalSettings[modalId]?.wireframe;
 
   model.traverse(child => {
@@ -1072,7 +1071,7 @@ function closeModal(modalEl) {
   }
 }
 
-// モーダルトリガー
+
 function bindModalTriggers() {
   document.querySelectorAll('[data-modal]').forEach(el => {
     el.addEventListener('click', e => {
@@ -1088,7 +1087,6 @@ function bindModalTriggers() {
   });
 }
 
-// 閉じるボタン
 function bindModalClosers() {
   document.querySelectorAll('.close-modal').forEach(button => {
     button.addEventListener('click', () => {
