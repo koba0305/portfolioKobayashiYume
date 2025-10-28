@@ -680,27 +680,19 @@ const labels = document.querySelectorAll('.scroll-label');
     perspectiveCamera.lookAt(0, 1, 0);
 
 
-function isSmall()  { return window.innerWidth < 468; }
-function isNarrow() { return window.innerWidth < 800; }
-
 
 const renderer = new THREE.WebGLRenderer({
-  antialias: !isSmall()
+antialias: true
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.shadowMap.enabled = true;
 
-if (isSmall()) {
-  renderer.shadowMap.type = THREE.BasicShadowMap;
-  renderer.setPixelRatio(0.8);
-  renderer.toneMappingExposure = 0.7; 
-} else {
   renderer.shadowMap.type = THREE.BasicShadowMap;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
   renderer.toneMappingExposure = 0.8;
-}
+
 
 document.body.appendChild(renderer.domElement);
 
@@ -715,7 +707,11 @@ controls.enableRotate = false;
     let mixer;
     let animationDuration;
     const dynamicLights = [];
-    const path = 'model/heyaportfoliokeiryou.glb?rev=' + Date.now();
+    const path = 
+  location.hostname === '127.0.0.1' || location.hostname === 'localhost'
+    ? 'model/heyaportfoliokeiryou.glb'//ローカル
+    : 'model/heyaportfoliokeiryou.glb?rev=' + Date.now(); 
+
     loader.load('model/heyaportfoliokeiryou.glb', (gltf) => {
       cameraDriver = gltf.scene.getObjectByName("CameraDriver");
 
@@ -1108,38 +1104,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // 多分animationつけてるのとscrolltriggerがfixなのが原因でcssが効かない。ここでメディアクエリ分を調整する
 const pdfBtn = document.querySelector('.pdfdownload');
 function updatePdfTop() {
-  if (isSmall()) {
-    pdfBtn.style.top = '50%';
-    pdfBtn.style.left = '37.5%';
-  } else if (isNarrow()) {
-    pdfBtn.style.top = '60%';
-    pdfBtn.style.left = '50%';
-  } else {
     pdfBtn.style.top = '75%';
     pdfBtn.style.left = '50%';
-  }
 }
 window.addEventListener('resize', updatePdfTop);
 updatePdfTop();
-
-
-function adjustLabelPositions() {
-  const small = isSmall();
-
-  const label1 = document.querySelector('.scroll-label:first-of-type');
-  const label3 = document.querySelector('.scroll-label:nth-of-type(3)');
-  const label5 = document.querySelector('.scroll-label:nth-of-type(5)');
-  const label7 = document.querySelector('.scroll-label:nth-of-type(7)');
-  const label9 = document.querySelector('.scroll-label:nth-of-type(9)');
-
-  if (label1) label1.style.top = small ? '20%' : '';
-  if (label3) label3.style.top = small ? '50%' : '';
-  [label5, label7, label9].forEach(label => {
-    if (label) label.style.top = small ? '10%' : '';
-  });
-}
-window.addEventListener('resize', adjustLabelPositions);
-adjustLabelPositions(); // 初回実行
 
   </script>
 </body>
