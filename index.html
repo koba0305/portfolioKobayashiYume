@@ -65,6 +65,7 @@
   height: 150vh;
   pointer-events: auto;
   cursor: pointer;
+  
 }
 
 .modal-close {
@@ -126,6 +127,7 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 9999;
+  
 }
 
 .modal.visible {
@@ -142,7 +144,7 @@
   margin: 0;
   position: relative;
   z-index: 20;
-  
+  user-select: none;
 }
 .modal-description {
   position: absolute;
@@ -339,7 +341,19 @@ width: 300px;  top: 68vh;
     transform: translate(-50%, -50%);
   }
 }
-
+/* 閉じるボタンの選択とハイライトを殺す */
+.modal .close-modal,
+.modal .modal-close {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  -webkit-user-drag: none;
+}
+.modal .close-modal::selection,
+.modal .modal-close::selection {
+  background: transparent;
+}
 
 
 #loading-screen {
@@ -994,9 +1008,15 @@ const size = getCanvasSize(canvas.id, width);
 
 
 const modelSize = box.getSize(new THREE.Vector3()).length();
-      const target = 2.0;
-      const s = target / (modelSize || 1);
-      model.scale.setScalar(s);
+const target = 2.0;
+const s = target / (modelSize || 1);
+
+const deviceScale =
+  (width < 468) ? 0.7 :       // 小画面
+  (width < 800) ? 0.9 :       // 中画面
+                  1.0;        // 大画面
+model.scale.setScalar(s * deviceScale);
+
 
       model.updateMatrixWorld(true);
 const box1 = new THREE.Box3().setFromObject(model);
