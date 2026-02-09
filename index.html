@@ -176,8 +176,8 @@
 
 .modal-canvas {
     position: absolute;
-  width: 1200px;
-  height: 800px;
+  width: clamp(320px, 70vmin, 900px);
+  height: clamp(320px, 70vmin, 900px);
   z-index:5;
     cursor: grab;
 }
@@ -684,8 +684,8 @@ transform: translate(-59vw, -5vh);
   }
 });
     import * as THREE from 'three';
-    import { GLTFLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
-    import { OrbitControls } from 'https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js';
+    import { GLTFLoader } from './jsm/GLTFLoader.js';
+    import { OrbitControls } from './jsm/OrbitControls.js';
     if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
@@ -900,6 +900,7 @@ window.updateLabels = updateLabels;
   perspectiveCamera.aspect = aspect;
   perspectiveCamera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  updateAllModalViewers();
 });
 
 
@@ -926,20 +927,56 @@ const modalSettings = {
   modal5: { model: 'model/heyaportfoliokeiryou.glb', wireframe: true },
 };
 
+const modalSizeRules = {
+  modal1: { small: 750, large: 700, scale: 1.0 },
+  modal2: { small: 750, large: 700, scale: 1.0 },
+  modal3: { small: 850, large: 750, scale: 1.05 },
+  modal4: { small: 850, large: 700, scale: 1.0 },
+  modal5: { small: 650, large: 700, scale: 0.95 },
+};
 
-function getCanvasSize(canvasId, width) {
-  if (canvasId === 'modal4-canvas') {
-    return width < 800 ? 850 : 700;
-  } else if (canvasId === 'modal5-canvas') {
-    return width < 468 ? 650 : 700;
-  }   else if (canvasId === 'modal2-canvas')  {
-    return width < 468 ? 750 : 700;
-  } else if (canvasId === 'modal3-canvas')  {
-    return width < 468 ? 850 : 750;
-  } 
-  else {
-    return width < 468 ? 750 : 700;
+function getViewportSize() {
+  const width = Math.round(window.visualViewport?.width ?? window.innerWidth);
+  const height = Math.round(window.visualViewport?.height ?? window.innerHeight);
+  return { width, height };
+}
+
+function getDeviceScale(width) {
+  return (width < 468) ? 0.7 :
+         (width < 800) ? 0.9 :
+                          1.0;
+}
+
+function getCanvasSize(canvasId, width, height) {
+  const modalId = canvasId.replace('-canvas', '');
+  const rule = modalSizeRules[modalId] ?? { small: 750, large: 700, scale: 1.0 };
+  const base = width < 468 ? rule.small : rule.large;
+  const minSide = Math.min(width, height);
+  const desired = Math.round(minSide * 0.95 * rule.scale);
+  const maxSize = Math.min(base * 1.35, minSide * 0.95);
+  const minSize = Math.min(base * 0.7, minSide * 0.7);
+  return Math.round(Math.max(minSize, Math.min(maxSize, desired)));
+}
+
+function updateModalViewerSize(modalId) {
+  const v = modalViewers[modalId];
+  if (!v?.initialized) return;
+
+  const { width, height } = getViewportSize();
+  const size = getCanvasSize(v.canvas.id, width, height);
+  v.renderer.setSize(size, size);
+  v.renderer.setPixelRatio(window.devicePixelRatio);
+  v.canvas.style.width = `${size}px`;
+  v.canvas.style.height = `${size}px`;
+
+  if (v.scaleTarget && v.baseScale) {
+    const deviceScale = getDeviceScale(width);
+    v.scaleTarget.scale.setScalar(v.baseScale * deviceScale);
   }
+}
+
+function updateAllModalViewers() {
+  Object.keys(modalViewers).forEach(updateModalViewerSize);
 }
 
 
@@ -948,12 +985,9 @@ function initModalViewer(modalId) {
     const modalEl = document.getElementById(modalId);
   const loadingEl = modalEl.querySelector('.loading-indicator');
   if (loadingEl) loadingEl.classList.remove('hidden');
-  function getViewportWidth() {
-  return Math.round(window.visualViewport?.width ?? window.innerWidth);
-}
-const width = getViewportWidth();
+  const { width, height } = getViewportSize();
   const canvas = document.getElementById(`${modalId}-canvas`);
-const size = getCanvasSize(canvas.id, width);
+  const size = getCanvasSize(canvas.id, width, height);
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setSize(size, size);  
@@ -986,6 +1020,7 @@ const size = getCanvasSize(canvas.id, width);
 
     const group = new THREE.Group();
     group.add(model);
+    group.rotation.y = -Math.PI / 1.5;
 
   const useWireframe = modalSettings[modalId]?.wireframe;
 
@@ -1015,10 +1050,7 @@ const modelSize = box.getSize(new THREE.Vector3()).length();
 const target = 2.0;
 const s = target / (modelSize || 1);
 
-const deviceScale =
-  (width < 468) ? 0.7 :       // 小画面
-  (width < 800) ? 0.9 :       // 中画面
-                  1.0;        // 大画面
+const deviceScale = getDeviceScale(width);
 model.scale.setScalar(s * deviceScale);
 
 
@@ -1047,6 +1079,8 @@ model.position.sub(center1);
       camera,
       controls,
       mesh: group,
+      scaleTarget: model,
+      baseScale: s,
       animationId: null,
       initialized: true,
       canvas,
@@ -1152,4 +1186,3 @@ updatePdfTop();
   </script>
 </body>
 </html>
-
