@@ -4,15 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <script>
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-      const meta = document.createElement('meta');
-      meta.name = "viewport";
-      meta.content = "width=device-width, initial-scale=1.0";
-      document.head.appendChild(meta);
-    }
-  </script>
-
   <title>KobayashiYume-portfolio</title>
 <style>    @font-face {
   font-family: "Bebas Neue";
@@ -108,13 +99,15 @@
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none; /* ← 背景だけどクリック貫通させるなら */
 }
 
 
 
 .modal {
+  display: none !important;
+  pointer-events: none;
   position: fixed;
   top: 0; left: 0;
   width: 100vw;
@@ -132,10 +125,15 @@
   
 }
 
+
 .modal.visible {
-  opacity: 1;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
   pointer-events: auto;
+  opacity: 1;
 }
+
 
 .modal-content {
   width: 100vw;
@@ -168,6 +166,7 @@
 #modal4-description{
  top: 7vh; 
  left: 50vw;
+  z-index: 5;
 }
 #modal5-description{
     top: 70vh;
@@ -183,27 +182,27 @@
 }
 
   #modal5-canvas{
-  top: 0;
+  top: calc(0vh + 2vh);
   left:10vw;
   transform: translate(0);
   }
   #modal4-canvas{
-  top: 2vh;
+  top: 6vh;
   left:0;
   transform: translate(0);
   }
   #modal1-canvas{
-  top: 2vh;
+  top: calc(2vh + 2vh);
   left:0;
   transform: translate(-5vw);
   }
   #modal2-canvas{
-  top: 2vh;
+  top: calc(0vh);
   left:0;
   transform: translate(-5vw);
   }
     #modal3-canvas{
-  top: 0;
+  top: calc(8vh);
   left:0;
   transform: translateY(-5vw);
   }
@@ -221,43 +220,115 @@
   position: absolute;
   left: 53vw;
   height: auto;
-  z-index: 3;
+  z-index: 8;
   pointer-events: auto;
   cursor: pointer;
   width: 440px;
   top: 19vh;
 }
-
 .modal2-text {
   position: absolute;
   left: 50vw;
-  z-index: 3;
+  z-index: 8;
   width: 440px;
   top: calc(25vh - 100px);
   font-size: 1.1rem;
   letter-spacing: 0.02rem;
-  font-weight: 400;
+  font-weight: 300;
   font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
   color: rgba(255, 255, 255, 0.85);
-  pointer-events: auto;
-  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
+
+.modal.visible .modal.visible .modal2-image:hover {
+  opacity: 0.3;
+}
+.modal.visible .modal2-image:hover + .modal2-text {
+  opacity: 1;
+  visibility: visible;
+}
+
 .modal4-image {
   position: absolute;
-  left: 50vw;
+  left: 52vw;
   height: auto;
-  z-index: 1;
-  pointer-events: none;
+  z-index: 8;
+  pointer-events: auto;
+  cursor: pointer;
   width: 400px;  top: 26vh;
 }
-.modal4-image2 {
+.modal4-text {
   position: absolute;
-  left: 50vw;
-  height: auto;
-  z-index: 1;
+  left: 52vw;
+  z-index: 8;
+  width: 400px;
+  top: 26vh;
+  font-size: 1.1rem;
+  letter-spacing: 0.02rem;
+  font-weight: 300;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal.visible .modal.visible .modal4-image:hover {
+  opacity: 0.3;
+}
+.modal.visible .modal4-image:hover + .modal4-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal4-image2 {
+
+  position: absolute;
+  left: 52vw;
+  height: auto;
+  z-index: 8;
+  pointer-events: auto;
+  cursor: pointer;
 width: 300px;  top: 68vh;
 }
+.modal4-text2 {
+
+  position: absolute;
+  left: 52vw;
+  z-index: 8;
+  width: 300px;
+  top: 68vh;
+  font-size: 1.1rem;
+  letter-spacing: 0.02rem;
+  font-weight: 300;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.modal:not(.visible) .modal2-text,
+.modal:not(.visible) .modal4-text,
+.modal:not(.visible) .modal4-text2 {
+  display: none !important;
+}
+
+.modal.visible .modal.visible .modal4-image2:hover {
+  opacity: 0.3;
+}
+.modal.visible .modal4-image2:hover + .modal4-text2 {
+  opacity: 1;
+  visibility: visible;
+}
+
 .loading-indicator {
   position: absolute;
   top: 50%;
@@ -270,6 +341,7 @@ width: 300px;  top: 68vh;
 
 .hidden {
   display: none;
+  pointer-events: none;
 }
 
 
@@ -465,7 +537,7 @@ font-size: 4vw;
 
 
 #modal5-canvas { transform: translate(-20vw, -7vh) !important; }
-#modal4-canvas { transform: translate(-27vw, -2vh) !important; }
+#modal4-canvas { transform: translate(-27vw, -6vh) !important; }
 #modal1-canvas { transform: translate(-31vw, -15vh) !important; }
 #modal2-canvas { transform: translate(-31vw, -15vh) !important; }
 #modal3-canvas { transform: translate(-30vw, -5vh) !important; }
@@ -632,7 +704,7 @@ transform: translate(-59vw, -5vh);
     <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal2-canvas"class="modal-canvas"></canvas>
     <img class="modal2-image" src="img/Drum2.png" alt="drums"/>
-    <div class="modal2-text hidden"><br><br>Virtual Drums はパントマイムに似た動きで演奏が可能なグローブ型のデバイスであり、<br>
+    <div class="modal2-text"><br><br>Virtual Drums はパントマイムに似た動きで演奏が可能なグローブ型のデバイスであり、<br>
 「第三回 100Project」にて製作を行なった。<br>
 当 Project では Virtual Drums チームリーダーの役職に就き、今作品の着想から最終プレゼンまでを務めた。<br>
 Arduino で MIDI 音楽ソフトを動かすスクリプトや赤外線レーザー測距での距離調整等、様々なプロトタイプを都度製作し、先輩から助言をいただきながら改良を続けた。<br>
@@ -667,12 +739,19 @@ https://www.youtube.com/watch?v=LGOJBzxyIWU</div>
     <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal4-canvas"class="modal-canvas"></canvas>
     <img class="modal4-image" src="img/moho.png" alt="Model Preview"/>
+    <div class="modal4-text">卒業論文『2Dと3D併用リグモデルによる
+不気味さの映像表現の制作と考察』<br><br>
+本研究では、2Dキャラクターに3D的な動きを付与する際に発生する視覚的違和感や不気味さに着目し、<br>
+「不気味の谷」領域に入り込みにくい動きの条件について検討を行った。
+</div>
     <img class="modal4-image2" src="img/moho2.png" alt="Model Preview"/>
+    <div class="modal4-text2">
+モデル使用映像　https://www.youtube.com/shorts/xiXx1KAaKyQ
+    </div>
     </div>
     <div class="modal-description" id="modal4-description">
       Grab & play.<br><br>
-      Software: Moho Blender<br>
-      youtube→ https://bit.ly/4gOI2wj
+      Software: Moho Blender
     </div>
   </div>
 </div>
@@ -867,8 +946,13 @@ function updateLabels(scrollRatio) {
 
 
 window.updateLabels = updateLabels;
-    function animate() {
-      requestAnimationFrame(animate);
+    let lastFrameTime = 0;
+let FRAME_MS = window.innerWidth <= 768 ? 1000 / 30 : 1000 / 60;
+
+function animate(t = 0) {
+  requestAnimationFrame(animate);
+  if (t - lastFrameTime < FRAME_MS) return;
+  lastFrameTime = t;
 
 
       
@@ -949,7 +1033,7 @@ const modalSettings = {
   modal1: { model: 'model/Aposeyume.glb', wireframe: true },
   modal2: { model: 'model/gloves.glb', wireframe: true },
   modal3: { model: 'model/2D.glb', wireframe: false },
-  modal4: { model: 'model/yamu3Dkubi.glb', wireframe: true },
+  modal4: { model: 'model/yamu3Dkubi.glb', wireframe: true, scaleBoost: 1.32 },
   modal5: { model: 'model/heyaportfoliokeiryou.glb', wireframe: true },
 };
 
@@ -957,7 +1041,7 @@ const modalSizeRules = {
   modal1: { small: 750, large: 700, scale: 1.0 },
   modal2: { small: 750, large: 700, scale: 1.0 },
   modal3: { small: 850, large: 750, scale: 1.05 },
-  modal4: { small: 850, large: 700, scale: 1.0 },
+  modal4: { small: 850, large: 700, scale: 0.8 },
   modal5: { small: 650, large: 700, scale: 0.95 },
 };
 
@@ -997,7 +1081,7 @@ function updateModalViewerSize(modalId) {
 
   if (v.scaleTarget && v.baseScale) {
     const deviceScale = getDeviceScale(width);
-    v.scaleTarget.scale.setScalar(v.baseScale * deviceScale);
+    v.scaleTarget.scale.setScalar(v.baseScale * deviceScale * (v.scaleBoost || 1));
   }
 }
 
@@ -1077,7 +1161,8 @@ const target = 2.0;
 const s = target / (modelSize || 1);
 
 const deviceScale = getDeviceScale(width);
-model.scale.setScalar(s * deviceScale);
+const scaleBoost = modalSettings[modalId]?.scaleBoost ?? 1;
+model.scale.setScalar(s * deviceScale * scaleBoost);
 
 
       model.updateMatrixWorld(true);
@@ -1103,10 +1188,10 @@ model.position.sub(center1);
       renderer,
       scene,
       camera,
-      controls,
-      mesh: group,
+      controls,      mesh: group,
       scaleTarget: model,
       baseScale: s,
+      scaleBoost: scaleBoost,
       animationId: null,
       initialized: true,
       canvas,
@@ -1118,10 +1203,14 @@ model.position.sub(center1);
   });
 }
 
-function animateModal(modalId) {
+function animateModal(modalId, t = 0) {
   const v = modalViewers[modalId];
   if (!v) return;
-  v.animationId = requestAnimationFrame(() => animateModal(modalId));
+  v.animationId = requestAnimationFrame((ts) => animateModal(modalId, ts));
+
+  const last = v.lastFrameTime || 0;
+  if (t - last < FRAME_MS) return;
+  v.lastFrameTime = t;
  
 
   v.mesh.rotation.y += 0.003;
@@ -1131,6 +1220,14 @@ function animateModal(modalId) {
 
 function openModal(modalEl) {
   const modalId = modalEl.id;
+
+  document.querySelectorAll(".modal").forEach(m => {
+    if (m !== modalEl) {
+      m.classList.remove("visible");
+      m.style.display = "none";
+      m.style.pointerEvents = "none";
+    }
+  });
   modalEl.classList.add('visible');
   addGlitchSquaresTo(modalEl);
 
@@ -1167,23 +1264,8 @@ function closeModal(modalEl) {
 }
 
 
-function setupModal2Toggle() {
-  const img = document.querySelector(".modal2-image");
-  const text = document.querySelector(".modal2-text");
-  if (!img || !text) return;
+function setupModal4Toggle() {}
 
-  const showText = () => {
-    img.classList.add("hidden");
-    text.classList.remove("hidden");
-  };
-  const showImage = () => {
-    text.classList.add("hidden");
-    img.classList.remove("hidden");
-  };
-
-  img.addEventListener("click", showText);
-  text.addEventListener("click", showImage);
-}
 
 function bindModalTriggers() {
   document.querySelectorAll('[data-modal]').forEach(el => {
@@ -1214,7 +1296,8 @@ function bindModalClosers() {
 // 起動時バインド
 document.addEventListener('DOMContentLoaded', () => {
   bindModalTriggers();
-setupModal2Toggle();
+
+
   bindModalClosers();
 });
 
