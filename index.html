@@ -216,22 +216,27 @@
   width: 440px;  top: 28vh;
   }
 
-  .modal2-image {
+  .modal2-hover {
   position: absolute;
   left: 53vw;
-  height: auto;
+  top: 19vh;
+  width: 440px;
   z-index: 8;
+}
+.modal2-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
   pointer-events: auto;
   cursor: pointer;
-  width: 440px;
-  top: 19vh;
 }
 .modal2-text {
   position: absolute;
-  left: 54vw;
-  z-index: 8;
-  width: 440px;
-  top: calc(25vh - 100px);
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
   font-size: 1.1rem;
   letter-spacing: 0.02rem;
   font-weight: 300;
@@ -242,31 +247,40 @@
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease;
+
+}
+.modal2-text a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline;
 }
 
-.modal.visible .modal.visible .modal2-image:hover {
-  opacity: 0.3;
-}
-.modal.visible .modal2-image:hover + .modal2-text {
+.modal.visible .modal2-hover:hover .modal2-text {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
-.modal4-image {
+.modal4-hover {
   position: absolute;
   left: 52vw;
-  height: auto;
+  top: 26vh;
+  width: 400px;
   z-index: 8;
+}
+.modal4-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
   pointer-events: auto;
   cursor: pointer;
-  width: 400px;  top: 26vh;
 }
 .modal4-text {
   position: absolute;
-  left: 52vw;
-  z-index: 8;
-  width: 400px;
-  top: 26vh;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
   font-size: 1.1rem;
   letter-spacing: 0.02rem;
   font-weight: 300;
@@ -278,32 +292,33 @@
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
-
-.modal.visible .modal.visible .modal4-image:hover {
-  opacity: 0.3;
-}
-.modal.visible .modal4-image:hover + .modal4-text {
+.modal.visible .modal4-hover:hover .modal4-text {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
-.modal4-image2 {
-
+.modal4-hover2 {
   position: absolute;
   left: 52vw;
-  height: auto;
+  top: 68vh;
+  width: 300px;
   z-index: 8;
+}
+.modal4-image2 {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
   pointer-events: auto;
   cursor: pointer;
-width: 300px;  top: 68vh;
 }
 .modal4-text2 {
-
   position: absolute;
-  left: 52vw;
-  z-index: 8;
-  width: 300px;
-  top: 68vh;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
   font-size: 1.1rem;
   letter-spacing: 0.02rem;
   font-weight: 300;
@@ -314,20 +329,25 @@ width: 300px;  top: 68vh;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease;
+
 }
+.modal4-text2 a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline;
+}
+
+.modal.visible .modal4-hover2:hover .modal4-text2 {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 .modal:not(.visible) .modal2-text,
 .modal:not(.visible) .modal4-text,
 .modal:not(.visible) .modal4-text2 {
   display: none !important;
 }
 
-.modal.visible .modal.visible .modal4-image2:hover {
-  opacity: 0.3;
-}
-.modal.visible .modal4-image2:hover + .modal4-text2 {
-  opacity: 1;
-  visibility: visible;
-}
 
 .loading-indicator {
   position: absolute;
@@ -555,17 +575,14 @@ font-size: 4vw;
     top: 70vh;
     left: 3vw;
 }
-.modal2-image {
-width: 52vw;  top: 70vh;left:4vw;
+.modal2-hover {
+  width: 52vw;  top: 70vh;left:4vw;
 }
-.modal2-text {
-width: 52vw;  top: 70vh;left:4vw;
-}
-.modal4-image {
+.modal4-hover {
   width: 45vw;  top: 40vh;
 }
-.modal4-image2 {
-width: 40vw;  top: 70vh;
+.modal4-hover2 {
+  width: 40vw;  top: 70vh;
 }
   .modal1-image {
     width: 80vw;  top: 67vh;
@@ -703,14 +720,15 @@ transform: translate(-59vw, -5vh);
     <div class="modal-close close-modal"></div>
     <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal2-canvas"class="modal-canvas"></canvas>
-    <img class="modal2-image" src="img/Drum2.png" alt="drums"/>
-    <div class="modal2-text"><br><br>Virtual Drums はパントマイムに似た動きで演奏が可能なグローブ型のデバイスであり、<br>
+    <div class="modal2-hover">
+      <img class="modal2-image" src="img/Drum2.png" alt="drums"/>
+      <div class="modal2-text">Virtual Drums はパントマイムに似た動きで演奏が可能なグローブ型のデバイスであり、<br>
 「第三回 100Project」にて製作を行なった。<br>
 当 Project では Virtual Drums チームリーダーの役職に就き、今作品の着想から最終プレゼンまでを務めた。<br>
 Arduino で MIDI 音楽ソフトを動かすスクリプトや赤外線レーザー測距での距離調整等、様々なプロトタイプを都度製作し、先輩から助言をいただきながら改良を続けた。<br>
 優秀ハードウェア賞受賞<br><br>
-YouTube 動画<br>
-https://www.youtube.com/watch?v=LGOJBzxyIWU</div>
+YouTube 動画<br><a href="https://www.youtube.com/watch?v=LGOJBzxyIWU" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=LGOJBzxyIWU</a></div>
+    </div>
     </div>
     <div class="modal-description" id="modal2-description">
       Grab & play.<br><br>
@@ -738,15 +756,19 @@ https://www.youtube.com/watch?v=LGOJBzxyIWU</div>
     <div class="modal-close close-modal"></div>
     <div class="loading-indicator hidden">Now Loading...</div>
     <canvas id="modal4-canvas"class="modal-canvas"></canvas>
-    <img class="modal4-image" src="img/moho.png" alt="Model Preview"/>
-    <div class="modal4-text">卒業論文『2Dと3D併用リグモデルによる
+    <div class="modal4-hover">
+      <img class="modal4-image" src="img/moho.png" alt="Model Preview"/>
+      <div class="modal4-text">卒業論文『2Dと3D併用リグモデルによる
 不気味さの映像表現の制作と考察』<br><br>
 本研究では、2Dキャラクターに3D的な動きを付与する際に発生する視覚的違和感や不気味さに着目し、<br>
 「不気味の谷」領域に入り込みにくい動きの条件について検討を行った。
-</div>
-    <img class="modal4-image2" src="img/moho2.png" alt="Model Preview"/>
+    </div>
+    </div>
+    <div class="modal4-hover2">
+      <img class="modal4-image2" src="img/moho2.png" alt="Model Preview"/>
     <div class="modal4-text2">
-モデル使用映像　https://www.youtube.com/shorts/xiXx1KAaKyQ
+モデル使用映像　<a href="https://www.youtube.com/shorts/xiXx1KAaKyQ" target="_blank" rel="noopener noreferrer">https://www.youtube.com/shorts/xiXx1KAaKyQ</a>
+      </div>
     </div>
     </div>
     <div class="modal-description" id="modal4-description">
